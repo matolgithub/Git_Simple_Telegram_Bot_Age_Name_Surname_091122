@@ -94,10 +94,25 @@ def get_age(message):
     current_user = []
     pprint(persons)
     print(f"Current user after: {current_user}.")
-    my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="That is all? (write: by/ again)")
+
+    # keyboard
+    keyboard = types.InlineKeyboardMarkup()
+    key_yes = types.InlineKeyboardButton(text='YES', callback_data='yes')
+    keyboard.add(key_yes)
+    key_no = types.InlineKeyboardButton(text='NO', callback_data='no')
+    keyboard.add(key_no)
+    my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="Next step?", reply_markup=keyboard)
     my_tlg_bot_091122.register_next_step_handler(message, finish_talk)
 
     return age
+
+
+@my_tlg_bot_091122.callback_query_handler(func=lambda call: True)
+def callback_worker(call):
+    if call.data == "yes":
+        my_tlg_bot_091122.send_message(call.message.chat.id, 'Cool :) That is all? (write: by/ again)')
+    elif call.data == "no":
+        my_tlg_bot_091122.send_message(call.message.chat.id, 'Very bad :( That is all? (write: by/ again)')
 
 
 @my_tlg_bot_091122.message_handler(content_types=["text"])
