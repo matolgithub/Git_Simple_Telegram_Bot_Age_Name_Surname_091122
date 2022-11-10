@@ -47,7 +47,7 @@ def get_updates():
 @my_tlg_bot_091122.message_handler(content_types=["text"])
 def greeting(message):
     try:
-        if message.text == "Hello" or message.text == "hello" or message.text == "Hello!":
+        if message.text == "Hello" or message.text == "hello" or message.text == "Hello!" or message.text == "again":
             my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="Hello, nice to meet you?")
             my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="What is your name?")
             my_tlg_bot_091122.register_next_step_handler(message, get_name)
@@ -94,6 +94,7 @@ def get_age(message):
     current_user = []
     pprint(persons)
     print(f"Current user after: {current_user}.")
+    my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="That is all? (write: by/ again)")
     my_tlg_bot_091122.register_next_step_handler(message, finish_talk)
 
     return age
@@ -104,11 +105,21 @@ def finish_talk(message):
     try:
         if message.text == "Good by" or message.text == "by" or message.text == "By":
             my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="Good by! Hope see you again!")
+            my_tlg_bot_091122.send_photo(chat_id=message.chat.id, photo=open("img.jpg", "rb"))
+            my_tlg_bot_091122.send_photo(chat_id=message.chat.id,
+                                         photo="https://ic.pics.livejournal.com/znat_kak/80938184/7979751/7979751_1000.jpg")
+            my_tlg_bot_091122.send_animation(message.chat.id,
+                                             animation="https://www.beesona.ru/upload/676/d7ccc323ccae3b37daae6d9a36cb4dc8.gif")
+            my_tlg_bot_091122.send_voice(message.chat.id, voice=open("voice.mp3", "rb"))
+
+        elif message.text == "again":
+            my_tlg_bot_091122.register_next_step_handler(message, greeting)
+            my_tlg_bot_091122.send_photo(chat_id=message.chat.id,
+                                         photo="https://kartinkof.club/uploads/posts/2022-04/1649982631_30-kartinkof-club-p-zdorovo-kartinki-prikolnie-50.jpg")
         else:
             my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="Sorry! Don't understand you!")
     except Exception:
         my_tlg_bot_091122.send_message(chat_id=message.chat.id, text="Sorry! Damage!")
-    my_tlg_bot_091122.register_next_step_handler(message, greeting)
 
 
 if __name__ == "__main__":
