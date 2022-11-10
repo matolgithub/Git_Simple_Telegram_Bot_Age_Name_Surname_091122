@@ -40,11 +40,19 @@ def get_updates():
     return response.json()
 
 
-def main():
-    # check_bot()
-    # send_msg_tothebot()
-    get_updates()
+@my_tlg_bot_091122.message_handler(content_types=["text", "document", "audio"])
+def main(message):
+    if message == "Hello":
+        my_tlg_bot_091122.send_message(chat_id=getenv("GHAT_ID"), text="Hello, how can I help you?")
+    else:
+        my_tlg_bot_091122.send_message(chat_id=getenv("GHAT_ID"), text="Error!")
 
+
+# check_bot()
+# send_msg_tothebot()
+# get_updates()
+
+my_tlg_bot_091122.polling(none_stop=True, interval=0)
 
 if __name__ == "__main__":
     main()
